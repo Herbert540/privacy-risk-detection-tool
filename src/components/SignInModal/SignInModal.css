@@ -1,0 +1,36 @@
+.sign-in-modal-dialog {
+  max-width: 600px;
+  margin: auto;
+}
+
+.sign-in-modal-content {
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.sign-in-modal-content .modal-header {
+  border-bottom: none;
+  justify-content: center;
+}
+
+.sign-in-modal-content .modal-title {
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.sign-in-modal-content .modal-body {
+  padding-top: 1.4rem;
+  padding-bottom: 2.0rem;
+}
+
+.google-btn {
+  font-size: 1.2rem;
+  padding: 0.8rem;
+}
+
+.google-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 8px;
+  margin-bottom: 2px;
+}
