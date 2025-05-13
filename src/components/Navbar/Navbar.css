@@ -1,9 +1,13 @@
 .custom-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
     height: 70px;
+    background-color: #fff;
 }
 
 .navbar-content {
@@ -16,7 +20,8 @@
 }
 
 .navbar-brand {
-    font-size: 1.8rem !important;;
+    font-size: 1.8rem !important;
+    ;
     font-weight: 700;
     text-align: center;
     color: #333;
@@ -37,7 +42,8 @@
     top: 3px;
 }
 
-.navbar-left, .navbar-right {
+.navbar-left,
+.navbar-right {
     display: flex;
     align-items: center;
     padding-right: 30px;

@@ -1,41 +1,53 @@
 import { useState } from 'react';
-import { Form, Button, Alert, Spinner, Container } from 'react-bootstrap';
+import { Form, Button, Alert, Spinner, Container, Card, ListGroup, Row, Col } from 'react-bootstrap';
+import { useAuthState, useDbData } from '../../utilities/firebase';
 import { extractPolicy } from '../../utilities/extractPolicy';
+import { analyzePolicy } from '../../utilities/analyzePolicy';
 import './Upload.css';
 
 function Upload() {
+    const [user] = useAuthState();
+    const [prefs] = useDbData(user ? `users/${user.uid}/preferences` : null);
+
     const [file, setFile] = useState(null);
     const [url, setUrl] = useState('');
-    const [policyText, setPolicyText] = useState('');
+    const [output, setOutput] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleFileChange = e => {
         setFile(e.target.files[0]);
         setUrl('');
-        setPolicyText('');
+        setOutput('');
         setError('');
     };
 
     const handleUrlChange = e => {
         setUrl(e.target.value);
         setFile(null);
-        setPolicyText('');
+        setOutput('');
         setError('');
     };
 
     const handleSubmit = async e => {
         e.preventDefault();
         setError('');
-        setPolicyText('');
+        setOutput('');
         if (!file && !url.trim()) {
             setError('Please upload a file or enter a URL.');
             return;
         }
+        if (!prefs) {
+            setError('Loading user preferences…');
+            return;
+        }
+
         setLoading(true);
         try {
-            const text = await extractPolicy({ file, url });
-            setPolicyText(text);
+            const policyText = await extractPolicy({ file, url });
+            const analysis = await analyzePolicy(policyText, prefs);
+
+            setOutput(analysis);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -43,9 +55,10 @@ function Upload() {
         }
     };
 
+
     return (
         <Container className="upload">
-            <h1>Upload Privacy Policy</h1>
+            <h1>Upload & Analyze</h1>
 
             <Form onSubmit={handleSubmit} className="upload-form">
                 <Form.Group controlId="policyFile">
@@ -79,24 +92,50 @@ function Upload() {
                     variant="primary"
                     type="submit"
                     className="mt-3"
-                    disabled={loading}
+                    disabled={loading || !!output}
                 >
-                    {loading ? (
-                        <>
-                            <Spinner animation="border" size="sm" /> Extracting...
-                        </>
-                    ) : (
-                        'Extract & Display'
-                    )}
+                    {loading
+                        ? <> <Spinner animation="border" size="sm" /> Analyzing… </>
+                        : 'Analyze Policy'}
                 </Button>
             </Form>
 
-            {policyText && (
-                <div className="policy-display mt-4">
-                    <h2>Extracted Policy Text</h2>
-                    <div className="policy-text">{policyText}</div>
+            {output && (
+                <div className="analysis-display mt-4 text-start">
+                    {output.matchingClauses?.length > 0 && (
+                        <section className="section-matching">
+                            <h2>Preferences Matches</h2>
+                            {output.matchingClauses.map(({ preference, clauses }) => (
+                                <div key={preference} className="preference-block">
+                                    <h3 className="preference-heading">{preference}</h3>
+                                    <ul className="clause-list">
+                                        {clauses.map((clause, i) => (
+                                            <li key={i}>{clause}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </section>
+                    )}
+
+                    {output.conflictingClauses?.length > 0 && (
+                        <section className="section-conflicts mt-4">
+                            <h2>Preference Conflicts</h2>
+                            {output.conflictingClauses.map(({ preference, clauses }) => (
+                                <div key={preference} className="preference-block">
+                                    <h3 className="preference-heading">{preference}</h3>
+                                    <ul className="clause-list">
+                                        {clauses.map((clause, i) => (
+                                            <li key={i}>{clause}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </section>
+                    )}
                 </div>
             )}
+
         </Container>
     );
 }
