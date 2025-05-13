@@ -63,11 +63,11 @@ function AppNavbar() {
                   className="icon-button"
                   title="Preferences"
                 />
-                <PersonCircle
+                {/* <PersonCircle
                   onClick={handleProfile}
                   className="icon-button"
                   title="Profile"
-                />
+                /> */}
                 <BoxArrowRight
                   onClick={handleSignOut}
                   className="icon-button-logout"

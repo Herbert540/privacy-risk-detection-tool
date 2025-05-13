@@ -10,14 +10,13 @@ function Preferences() {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
-  
+
   // Preference state
   const [preferences, setPreferences] = useState({
     format: {
       concise: false,
       simplified: false,
       highlighting: false,
-      visual: false
     },
     content: {
       dataUsage: false,
@@ -26,30 +25,37 @@ function Preferences() {
       privacyControls: false,
       dataRetention: false
     },
+    toolBehavior: {
+      riskTolerance: '',
+      highlightMethod: '',
+      severityLabeling: false,
+      useDefaultRules: true,
+      actionRecommendations: false,
+      educationalPopups: false
+    },
     summaryLength: '',
     additional: ''
   });
-  
-  // Fetch user data including preferences
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user) {
         setLoading(false);
         return;
       }
-      
+
       try {
         const userRef = ref(database, `/users/${user.uid}`);
         const snapshot = await get(userRef);
-        
+
         if (snapshot.exists()) {
           const userData = snapshot.val();
-          
+
           if (userData.preferences) {
             setPreferences(userData.preferences);
           }
         }
-        
+
         setLoading(false);
       } catch (err) {
         console.error('Error fetching user data:', err);
@@ -57,11 +63,10 @@ function Preferences() {
         setLoading(false);
       }
     };
-    
+
     fetchUserData();
   }, [user]);
-  
-  // Handle form field changes
+
   const handleFormatChange = (e) => {
     setPreferences(prev => ({
       ...prev,
@@ -71,7 +76,7 @@ function Preferences() {
       }
     }));
   };
-  
+
   const handleContentChange = (e) => {
     setPreferences(prev => ({
       ...prev,
@@ -81,37 +86,48 @@ function Preferences() {
       }
     }));
   };
-  
+
   const handleSummaryLengthChange = (e) => {
     setPreferences(prev => ({
       ...prev,
       summaryLength: e.target.value
     }));
   };
-  
+
+  const handleToolBehaviorChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setPreferences(prev => ({
+      ...prev,
+      toolBehavior: {
+        ...prev.toolBehavior,
+        [name]: type === 'checkbox' ? checked : value
+      }
+    }));
+  };
+
   const handleAdditionalChange = (e) => {
     setPreferences(prev => ({
       ...prev,
       additional: e.target.value
     }));
   };
-  
+
   // Save preferences to Firebase
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!user) {
       setError('You must be signed in to save preferences');
       return;
     }
-    
+
     try {
       const userRef = ref(database, `/users/${user.uid}`);
       const snapshot = await get(userRef);
-      
+
       if (snapshot.exists()) {
         const userData = snapshot.val();
-        
+
         // Update preferences while preserving other user data
         await update({
           [user.uid]: {
@@ -120,7 +136,7 @@ function Preferences() {
             preferences: preferences
           }
         });
-        
+
         setSuccess(true);
         setTimeout(() => setSuccess(false), 3000);
       }
@@ -129,7 +145,7 @@ function Preferences() {
       setError('Failed to save your preferences');
     }
   };
-  
+
   if (!user) {
     return (
       <Container className="preference-container">
@@ -144,7 +160,7 @@ function Preferences() {
       </Container>
     );
   }
-  
+
   if (loading) {
     return (
       <Container className="preference-container">
@@ -158,32 +174,32 @@ function Preferences() {
       </Container>
     );
   }
-  
+
   return (
     <Container className="preference-container">
       <div className="preference">
         <Card className="preference-card">
           <Card.Body>
             <Card.Title className="text-center mb-4">Your Privacy Policy Preferences</Card.Title>
-            
+
             {error && (
               <Alert variant="danger" onClose={() => setError('')} dismissible>
                 {error}
               </Alert>
             )}
-            
+
             {success && (
               <Alert variant="success">
                 Your preferences have been saved successfully!
               </Alert>
             )}
-            
+
             <Form onSubmit={handleSubmit}>
               <Card className="mb-4">
                 <Card.Header>What do you want in privacy policies?</Card.Header>
                 <Card.Body>
                   <Form.Group>
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="concise"
                       name="concise"
@@ -192,7 +208,7 @@ function Preferences() {
                       onChange={handleFormatChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="simplified"
                       name="simplified"
@@ -201,7 +217,7 @@ function Preferences() {
                       onChange={handleFormatChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="highlighting"
                       name="highlighting"
@@ -210,23 +226,15 @@ function Preferences() {
                       onChange={handleFormatChange}
                       className="mb-2"
                     />
-                    <Form.Check 
-                      type="checkbox"
-                      id="visual"
-                      name="visual"
-                      label="Visual summaries"
-                      checked={preferences.format.visual}
-                      onChange={handleFormatChange}
-                    />
                   </Form.Group>
                 </Card.Body>
               </Card>
-              
+
               <Card className="mb-4">
                 <Card.Header>Which details would you like clearly stated?</Card.Header>
                 <Card.Body>
                   <Form.Group>
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="dataUsage"
                       name="dataUsage"
@@ -235,7 +243,7 @@ function Preferences() {
                       onChange={handleContentChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="thirdParty"
                       name="thirdParty"
@@ -244,7 +252,7 @@ function Preferences() {
                       onChange={handleContentChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="appFunctionality"
                       name="appFunctionality"
@@ -253,7 +261,7 @@ function Preferences() {
                       onChange={handleContentChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="privacyControls"
                       name="privacyControls"
@@ -262,7 +270,7 @@ function Preferences() {
                       onChange={handleContentChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="checkbox"
                       id="dataRetention"
                       name="dataRetention"
@@ -273,12 +281,77 @@ function Preferences() {
                   </Form.Group>
                 </Card.Body>
               </Card>
-              
+
+              <Card className="mb-4">
+                <Card.Header>How should the tool behave?</Card.Header>
+                <Card.Body>
+                  <Form.Group>
+                    <Form.Label>Risk Tolerance</Form.Label>
+                    <Form.Select
+                      name="riskTolerance"
+                      value={preferences.toolBehavior.riskTolerance}
+                      onChange={handleToolBehaviorChange}
+                      className="mb-3"
+                    >
+                      <option value="">Select one</option>
+                      <option value="strict">Flag everything (strict)</option>
+                      <option value="majorOnly">Only flag major risks</option>
+                      <option value="industry">Follow industry standards (GDPR, CCPA)</option>
+                    </Form.Select>
+
+                    <Form.Label>Highlight Method</Form.Label>
+                    <Form.Select
+                      name="highlightMethod"
+                      value={preferences.toolBehavior.highlightMethod}
+                      onChange={handleToolBehaviorChange}
+                      className="mb-3"
+                    >
+                      <option value="">Select one</option>
+                      <option value="list">List flagged clauses</option>
+                      <option value="summary">Summarize in plain language</option>
+                      <option value="legalRefs">Include legal references</option>
+                    </Form.Select>
+
+                    <Form.Check
+                      type="checkbox"
+                      name="severityLabeling"
+                      label="Categorize by severity (High/Medium/Low)"
+                      checked={preferences.toolBehavior.severityLabeling}
+                      onChange={handleToolBehaviorChange}
+                      className="mb-2"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      name="useDefaultRules"
+                      label="Use default privacy best practices"
+                      checked={preferences.toolBehavior.useDefaultRules}
+                      onChange={handleToolBehaviorChange}
+                      className="mb-2"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      name="actionRecommendations"
+                      label="Show Accept / Reject / Investigate suggestions"
+                      checked={preferences.toolBehavior.actionRecommendations}
+                      onChange={handleToolBehaviorChange}
+                      className="mb-2"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      name="educationalPopups"
+                      label="Include educational notes for flagged terms"
+                      checked={preferences.toolBehavior.educationalPopups}
+                      onChange={handleToolBehaviorChange}
+                    />
+                  </Form.Group>
+                </Card.Body>
+              </Card>
+
               <Card className="mb-4">
                 <Card.Header>How long do you want summaries to be?</Card.Header>
                 <Card.Body>
                   <Form.Group>
-                    <Form.Check 
+                    <Form.Check
                       type="radio"
                       id="long"
                       name="summaryLength"
@@ -288,7 +361,7 @@ function Preferences() {
                       onChange={handleSummaryLengthChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="radio"
                       id="medium"
                       name="summaryLength"
@@ -298,7 +371,7 @@ function Preferences() {
                       onChange={handleSummaryLengthChange}
                       className="mb-2"
                     />
-                    <Form.Check 
+                    <Form.Check
                       type="radio"
                       id="short"
                       name="summaryLength"
@@ -310,7 +383,7 @@ function Preferences() {
                   </Form.Group>
                 </Card.Body>
               </Card>
-              
+
               <Card className="mb-4">
                 <Card.Header>Additional Preferences</Card.Header>
                 <Card.Body>
@@ -326,7 +399,7 @@ function Preferences() {
                   </Form.Group>
                 </Card.Body>
               </Card>
-              
+
               <div className="d-grid">
                 <Button variant="primary" type="submit" size="lg">
                   Save Preferences

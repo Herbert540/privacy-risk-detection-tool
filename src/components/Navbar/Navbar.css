@@ -53,6 +53,7 @@
 }
 
 .icon-button {
+    font-size: 1.6rem;
     margin: 0 8px;
     cursor: pointer;
     color: #007bff;
