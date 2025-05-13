@@ -1,5 +1,30 @@
 .upload {
-    margin: 0 auto;
-    text-align: center;
-    padding-top: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.upload-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.or-divider {
+  margin: 1rem 0;
+  font-weight: bold;
+  color: #666;
+}
+
+.policy-display {
+  text-align: left;
+}
+
+.policy-text {
+  white-space: pre-wrap;
+  background: #f8f9fa;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
 }
