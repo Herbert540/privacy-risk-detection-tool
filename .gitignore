@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
 .env
 
 # Editor directories and files
