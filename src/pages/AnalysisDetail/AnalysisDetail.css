@@ -1,0 +1,20 @@
+.analysis-detail h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.analysis-detail .timestamp {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.analysis-detail h2 {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+}
+
+.analysis-detail h3 {
+    font-size: 1.1rem;
+    margin-top: 0.75rem;
+}

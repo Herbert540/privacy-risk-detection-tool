@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import { useAuthState, signOut, } from '../../utilities/firebase.js';
-import { 
-  LayoutSidebarInset, 
-  PencilSquare, 
-  PersonCircle, 
+import {
+  LayoutSidebarInset,
+  PencilSquare,
+  PersonCircle,
   BoxArrowRight,
   GearFill
 } from 'react-bootstrap-icons';
@@ -12,7 +12,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import SignInModal from '../SignInModal/SignInModal';
 import './Navbar.css';
 
-function AppNavbar() {
+function AppNavbar({ onHistoryClick }) {
   const [user] = useAuthState();
   const [showSignIn, setShowSignIn] = useState(false);
   const navigate = useNavigate();
@@ -35,14 +35,14 @@ function AppNavbar() {
         <div className="navbar-content">
           <Nav className="navbar-left">
             <LayoutSidebarInset
-              onClick={null}
+              onClick={onHistoryClick}
               className="icon-button icon-sidebar"
-              title="Summaries"
+              title="History"
             />
             <PencilSquare
               onClick={handleNewSummary}
               className="icon-button icon-plus"
-              title="New Summary"
+              title="New Analysis"
             />
           </Nav>
 
