@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import { useAuthState, signOut, } from '../../utilities/firebase.js';
-import { LayoutSidebarInset, PencilSquare, PersonCircle, BoxArrowRight, } from 'react-bootstrap-icons';
+import { 
+  LayoutSidebarInset, 
+  PencilSquare, 
+  PersonCircle, 
+  BoxArrowRight,
+  GearFill
+} from 'react-bootstrap-icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import SignInModal from '../SignInModal/SignInModal';
 import './Navbar.css';
@@ -12,6 +18,8 @@ function AppNavbar() {
   const navigate = useNavigate();
 
   const handleNewSummary = () => navigate('/upload');
+  const handlePreferences = () => navigate('/preferences');
+  const handleProfile = () => navigate('/profile');
   const openModal = () => setShowSignIn(true);
   const closeModal = () => setShowSignIn(false);
   const handleSignOut = async () => {
@@ -50,6 +58,16 @@ function AppNavbar() {
                 <span className="username">
                   Welcome, {firstName}
                 </span>
+                <GearFill
+                  onClick={handlePreferences}
+                  className="icon-button"
+                  title="Preferences"
+                />
+                <PersonCircle
+                  onClick={handleProfile}
+                  className="icon-button"
+                  title="Profile"
+                />
                 <BoxArrowRight
                   onClick={handleSignOut}
                   className="icon-button-logout"
