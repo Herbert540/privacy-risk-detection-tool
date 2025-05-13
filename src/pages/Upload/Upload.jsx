@@ -38,7 +38,7 @@ function Upload() {
             return;
         }
         if (!prefs) {
-            setError('Loading user preferences…');
+            setError('Error loading user preferences…');
             return;
         }
 
