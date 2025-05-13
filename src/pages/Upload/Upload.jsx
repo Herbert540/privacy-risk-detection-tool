@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form, Button, Alert, Spinner, Container, Card, ListGroup, Row, Col } from 'react-bootstrap';
-import { useAuthState, useDbData } from '../../utilities/firebase';
+import { useAuthState, useDbData, useDbAdd } from '../../utilities/firebase';
 import { extractPolicy } from '../../utilities/extractPolicy';
 import { analyzePolicy } from '../../utilities/analyzePolicy';
 import './Upload.css';
@@ -8,6 +8,7 @@ import './Upload.css';
 function Upload() {
     const [user] = useAuthState();
     const [prefs] = useDbData(user ? `users/${user.uid}/preferences` : null);
+    const [addPrivacyData] = useDbAdd(`users/${user?.uid}/privacyData`);
 
     const [file, setFile] = useState(null);
     const [url, setUrl] = useState('');
@@ -46,6 +47,31 @@ function Upload() {
         try {
             const policyText = await extractPolicy({ file, url });
             const analysis = await analyzePolicy(policyText, prefs);
+
+            const baseTitle = file
+                ? file.name.replace(/\.[^.]+$/, '')
+                : (() => {
+                    try { return new URL(url).hostname; }
+                    catch { return url; }
+                })();
+
+            const timestamp = Date.now();
+            // e.g. "WhatsApp Privacy Policy — May 13, 2025 3:42 PM"
+            const dateLabel = new Date(timestamp).toLocaleString(undefined, {
+                dateStyle: 'medium',
+                timeStyle: 'short'
+            });
+            const title = `${baseTitle} — ${dateLabel}`;
+
+            await addPrivacyData(
+                {
+                    title,
+                    analysis,
+                    timestamp,
+                    filenameOrURL: file ? file.name : url
+                },
+                timestamp.toString()
+            );
 
             setOutput(analysis);
         } catch (err) {
