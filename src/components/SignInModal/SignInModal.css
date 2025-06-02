@@ -1,36 +1,122 @@
-.sign-in-modal-dialog {
-  max-width: 600px;
+/* Simple Sign-In Modal Styling */
+/* This approach focuses on clean design without overwhelming complexity */
+
+.simple-signin-modal {
+  max-width: 420px;
   margin: auto;
 }
 
-.sign-in-modal-content {
-  border-radius: 0.75rem;
-  padding: 1.5rem;
+.simple-signin-modal .modal-content {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 123, 255, 0.15);
 }
 
-.sign-in-modal-content .modal-header {
-  border-bottom: none;
+/* Clean header with subtle branding */
+.simple-signin-header {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  text-align: center;
+}
+
+.simple-signin-header .btn-close {
+  color: white;
+  opacity: 0.8;
+  filter: brightness(0) invert(1);
+}
+
+.simple-signin-header .btn-close:hover {
+  opacity: 1;
+}
+
+.signin-brand {
+  display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 0.75rem;
 }
 
-.sign-in-modal-content .modal-title {
-  font-size: 1.7rem;
-  font-weight: 500;
+.signin-icon {
+  font-size: 1.5rem;
+  color: white;
 }
 
-.sign-in-modal-content .modal-body {
-  padding-top: 1.4rem;
-  padding-bottom: 2.0rem;
+.simple-signin-header .modal-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
 }
 
-.google-btn {
-  font-size: 1.2rem;
-  padding: 0.8rem;
+/* Clean body section */
+.simple-signin-body {
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Enhanced Google button that looks professional */
+.simple-google-btn {
+  width: 100%;
+  background: white !important;
+  border: 2px solid #e0e0e0 !important;
+  color: #333 !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.simple-google-btn:hover:not(:disabled) {
+  background: #f8f9fa !important;
+  border-color: #007bff !important;
+  color: #333 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15) !important;
+}
+
+.simple-google-btn:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
 }
 
 .google-icon {
-  width: 25px;
-  height: 25px;
-  margin-right: 8px;
-  margin-bottom: 2px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Simple explanatory note */
+.signin-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+  .simple-signin-modal {
+    margin: 1rem;
+  }
+  
+  .simple-signin-header {
+    padding: 1rem;
+  }
+  
+  .simple-signin-body {
+    padding: 1.5rem;
+  }
+  
+  .simple-signin-header .modal-title {
+    font-size: 1.2rem;
+  }
 }

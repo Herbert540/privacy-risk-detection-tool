@@ -12,13 +12,11 @@ function Home() {
   };
 
   const handleLearnMore = () => {
-    // You can implement this to scroll to how it works section or navigate to an about page
     document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
       <div className="hero-section">
         <div className="hero-badge">
           <ShieldCheck className="badge-icon" />
