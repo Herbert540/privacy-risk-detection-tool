@@ -1,7 +1,8 @@
 import { Offcanvas, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { XSquare } from 'react-bootstrap-icons';
-import { useAuthState, useDbData } from '../../utilities/firebase';
+import { XSquare, Trash } from 'react-bootstrap-icons';
+import { ref, remove } from 'firebase/database';
+import { useAuthState, useDbData, database } from '../../utilities/firebase';
 import './Sidebar.css';
 
 export default function Sidebar({ show, toggle, selectedId, setSelectedId }) {
@@ -29,6 +30,21 @@ export default function Sidebar({ show, toggle, selectedId, setSelectedId }) {
 
     const truncate = (text, max = 50) =>
         text.length > max ? text.slice(0, max) + '…' : text;
+
+    const handleDelete = async (e, id) => {
+        e.stopPropagation();
+        if (!user) return;
+
+        try {
+            await remove(ref(database, `users/${user.uid}/privacyData/${id}`));
+            if (selectedId === id) {
+                setSelectedId(null);
+                navigate('/');
+            }
+        } catch (err) {
+            console.error('Error deleting entry:', err);
+        }
+    };
 
     return (
         <Offcanvas show={show} onHide={toggle} style={{ width: '300px' }}>
@@ -58,16 +74,21 @@ export default function Sidebar({ show, toggle, selectedId, setSelectedId }) {
                                     }
                                     onClick={() => handleClick(id)}
                                 >
-                                    <span className="item-date">
-                                        {new Date(timestamp).toLocaleDateString()}&nbsp;
-                                        {new Date(timestamp).toLocaleTimeString([], {
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        })}
-                                    </span>
-                                    <span className="item-title">
-                                        {truncate(title)}
-                                    </span>
+                                    <div className="item-content">
+                                        <span className="item-date">
+                                            {new Date(timestamp).toLocaleDateString()}&nbsp;
+                                            {new Date(timestamp).toLocaleTimeString([], {
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                            })}
+                                        </span>
+                                        <span className="item-title">{truncate(title)}</span>
+                                    </div>
+                                    <Trash
+                                        className="delete-icon"
+                                        title="Delete"
+                                        onClick={(e) => handleDelete(e, id)}
+                                    />
                                 </li>
                             </OverlayTrigger>
                         ))}

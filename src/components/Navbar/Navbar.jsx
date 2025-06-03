@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import { useAuthState, signOut, } from '../../utilities/firebase.js';
-import {
-  LayoutSidebarInset,
-  PencilSquare,
-  PersonCircle,
-  BoxArrowRight,
-  GearFill
-} from 'react-bootstrap-icons';
+import { LayoutSidebarInset, PencilSquare, PersonCircle, BoxArrowRight, GearFill } from 'react-bootstrap-icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import SignInModal from '../SignInModal/SignInModal';
 import './Navbar.css';
@@ -19,7 +13,6 @@ function AppNavbar({ onHistoryClick }) {
 
   const handleNewSummary = () => navigate('/upload');
   const handlePreferences = () => navigate('/preferences');
-  const handleProfile = () => navigate('/profile');
   const openModal = () => setShowSignIn(true);
   const closeModal = () => setShowSignIn(false);
   const handleSignOut = async () => {

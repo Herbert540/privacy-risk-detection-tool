@@ -25,11 +25,11 @@ export async function analyzePolicy(policyText, preferences) {
         if (prefs.toolBehavior.highlightMethod)
             tb.push(`Highlight method = ${prefs.toolBehavior.highlightMethod}`);
         if (prefs.toolBehavior.severityLabeling)
-            tb.push("Severity labeling");
+            tb.push("Add severity category (High/Medium/Low)");
         if (prefs.toolBehavior.actionRecommendations)
-            tb.push("Action recommendations");
+            tb.push("Add Action recommendations");
         if (prefs.toolBehavior.educationalPopups)
-            tb.push("Educational popups");
+            tb.push("Add Accept / Reject / Investigate suggestions");
         if (!prefs.toolBehavior.useDefaultRules)
             tb.push("No default rules");
         if (tb.length) lines.push(`Tool behavior: ${tb.join(", ")}`);
@@ -70,24 +70,30 @@ export async function analyzePolicy(policyText, preferences) {
     const systemPrompt = `
         You are a privacy–policy assistant.  
         Using the user's preferences and a privacy policy text,  
-        extract **only** the clauses that MATCH or CONFLICT  
-        with those preferences.  
+        extract **only** the clauses that MATCH and CONFLICT  
+        with those preferences. 
 
         ${highlightInstruction}
-        Output must be valid JSON with exactly two keys:
+        Output must be at most 2000 tokens and should be valid JSON with exactly two keys:
 
         {
         "matchingClauses": [
             {
             "preference": "<preference label>",
-            "clauses": ["<exact clause text>", …]
+            "clauses": ["<text based on instuction and user preferences>", …],
+            "severity": "<optional severity category (High/Medium/Low) based on user preferences (defaults to empty string)>",
+            "educationalNotes": "<optional educational notes based on user preferences (defaults to empty string)>",
+            "actionRecommendations": "<optional action recommendations based on user preferences (defaults to empty string)>"
             },
             …
         ],
         "conflictingClauses": [
             {
             "preference": "<preference label>",
-            "clauses": ["<exact clause text>", …]
+            "clauses": ["<text based on instuction and user preferences>", …],
+            "severity": "<optional severity category (High/Medium/Low) if in user preferences (defaults to empty string)>",
+            "educationalNotes": "<optional educational notes if in user preferences (defaults to empty string)>",
+            "actionRecommendations": "<optional action recommendations if in user preferences (defaults to empty string)>"
             },
             …
         ]
@@ -110,7 +116,7 @@ export async function analyzePolicy(policyText, preferences) {
             Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o",
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: userPrompt },
@@ -131,5 +137,23 @@ export async function analyzePolicy(policyText, preferences) {
     const reply = choices?.[0]?.message?.content;
     if (!reply) throw new Error("No content returned from OpenAI");
 
-    return JSON.parse(reply);
+    // Parse the JSON response from OpenAI
+    let jsonText = reply.trim();
+    if (jsonText.startsWith("```")) {
+        const lines = jsonText.split("\n");
+        lines.shift();
+        if (lines[0].trim().toLowerCase() === "json") {
+            lines.shift();
+        }
+        jsonText = lines.join("\n");
+    }
+    if (jsonText.endsWith("```")) {
+        jsonText = jsonText.slice(0, jsonText.lastIndexOf("```"));
+    }
+
+    const parsed = JSON.parse(jsonText);
+
+    console.log("OpenAI reply:", parsed);
+
+    return parsed;
 }
