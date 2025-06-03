@@ -1,0 +1,185 @@
+.auth-loading-screen, 
+.auth-gate-screen {
+  /* Match your Home page's sophisticated gradient background */
+  background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 50%, #faf5ff 100%);
+  min-height: 100vh;
+}
+
+.auth-loading-card,
+.auth-gate-card {
+  /* Elevated card design that matches your enhanced navbar style */
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 123, 255, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  max-width: 500px;
+  width: 100%;
+  margin: 2rem;
+}
+
+/* Loading Screen Animation */
+.auth-loading-icon {
+  font-size: 3rem;
+  color: #007bff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.05);
+  }
+}
+
+/* Brand Section Styling */
+.auth-brand {
+  border-bottom: 1px solid rgba(0, 123, 255, 0.1);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem !important;
+}
+
+.auth-brand-icon {
+  font-size: 3.5rem;
+  color: #007bff;
+  filter: drop-shadow(0 4px 8px rgba(0, 123, 255, 0.2));
+}
+
+.auth-brand-text {
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Value Proposition Typography */
+.auth-value-prop h4 {
+  color: #333;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.auth-value-prop .lead {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Benefits List Styling */
+.auth-benefits {
+  text-align: left;
+  background: rgba(0, 123, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 123, 255, 0.1);
+}
+
+.auth-benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.auth-benefit-item:last-child {
+  margin-bottom: 0;
+}
+
+.auth-benefit-icon {
+  color: #28a745;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Enhanced Sign-in Button */
+.auth-signin-btn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  border: none !important;
+  padding: 0.75rem 2rem !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3) !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+}
+
+.auth-signin-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4) !important;
+  background: linear-gradient(135deg, #0056b3 0%, #004494 100%) !important;
+}
+
+.auth-signin-btn:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2), 0 6px 20px rgba(0, 123, 255, 0.4) !important;
+}
+
+.auth-signin-btn:active {
+  transform: translateY(0) !important;
+}
+
+/* Responsive Design for Mobile Devices */
+@media (max-width: 768px) {
+  .auth-loading-card,
+  .auth-gate-card {
+    margin: 1rem;
+    border-radius: 16px;
+  }
+  
+  .auth-loading-card .card-body,
+  .auth-gate-card .card-body {
+    padding: 2rem !important;
+  }
+  
+  .auth-brand-icon {
+    font-size: 2.5rem;
+  }
+  
+  .auth-value-prop h4 {
+    font-size: 1.3rem;
+  }
+  
+  .auth-value-prop .lead {
+    font-size: 1rem;
+  }
+  
+  .auth-benefits {
+    padding: 1rem;
+  }
+  
+  .auth-signin-btn {
+    padding: 0.65rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-loading-card,
+  .auth-gate-card {
+    margin: 0.5rem;
+  }
+  
+  .auth-loading-card .card-body,
+  .auth-gate-card .card-body {
+    padding: 1.5rem !important;
+  }
+  
+  .auth-brand-icon {
+    font-size: 2rem;
+  }
+  
+  .auth-brand-text {
+    font-size: 1.5rem;
+  }
+}

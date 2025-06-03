@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { ShieldCheck } from 'react-bootstrap-icons';
 import { signInWithGoogle, useDbUpdate, database } from '../../utilities/firebase';
 import { ref, get } from 'firebase/database';
 import googleLogo from '../../images/googlelogo.svg';
@@ -10,27 +11,26 @@ export default function SignInModal({ show, onHide }) {
     const navigate = useNavigate();
     const [update] = useDbUpdate('/users');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleGoogleSignIn = async () => {
+        setError('');
+        setLoading(true);
+        
         try {
             const result = await signInWithGoogle();
-            // console.log('result:', result);
-
             const userID = result.uid;
-
             const userRef = ref(database, `/users/${userID}`);
             const snapshot = await get(userRef);
 
             if (snapshot.exists()) {
                 const userData = snapshot.val();
                 if (userData.newUser) {
-                    // console.log('User data:', userData);
                     navigate('/profile');
                 }
             } else {
                 const userData = {
-                    [userID]:
-                    {
+                    [userID]: {
                         displayName: result.displayName,
                         email: result.email,
                         photoURL: result.photoURL,
@@ -40,13 +40,14 @@ export default function SignInModal({ show, onHide }) {
                         preferences: [],
                     }
                 };
-                await (update(userData));
+                await update(userData);
             }
 
             onHide();
-
         } catch (err) {
-            setError(err.message);
+            setError(err.message || 'Failed to sign in. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -55,22 +56,48 @@ export default function SignInModal({ show, onHide }) {
             show={show}
             onHide={onHide}
             centered
-            size="lg"
-            dialogClassName="sign-in-modal-dialog"
-            contentClassName="sign-in-modal-content"
+            size="md"
+            dialogClassName="simple-signin-modal"
         >
-            <Modal.Header closeButton>
-                <Modal.Title>Sign In</Modal.Title>
+            <Modal.Header closeButton className="simple-signin-header">
+                <div className="signin-brand">
+                    <ShieldCheck className="signin-icon" />
+                    <Modal.Title>Sign in to Privacy Tool</Modal.Title>
+                </div>
             </Modal.Header>
-            <Modal.Body className="d-flex justify-content-center">
-                <Button onClick={handleGoogleSignIn} className="w-100 google-btn">
-                    <img
-                        src={googleLogo}
-                        alt="Google logo"
-                        className="google-icon"
-                    />
-                    Sign in with Google
+
+            <Modal.Body className="simple-signin-body">
+                {error && (
+                    <Alert variant="danger" className="mb-3">
+                        {error}
+                    </Alert>
+                )}
+
+                <Button 
+                    onClick={handleGoogleSignIn} 
+                    disabled={loading}
+                    className="simple-google-btn"
+                >
+                    {loading ? (
+                        <>
+                            <Spinner size="sm" className="me-2" />
+                            Signing in...
+                        </>
+                    ) : (
+                        <>
+                            <img
+                                src={googleLogo}
+                                alt="Google logo"
+                                className="google-icon"
+                            />
+                            Continue with Google
+                        </>
+                    )}
                 </Button>
+
+                <p className="signin-note">
+                    Sign in to save your analysis history and preferences
+                </p>
             </Modal.Body>
         </Modal>
     );

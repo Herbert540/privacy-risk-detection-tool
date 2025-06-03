@@ -1,69 +1,342 @@
+/* Enhanced Preferences Styling */
+/* This CSS creates distinct visual experiences for initial setup vs editing existing preferences */
+
 .preference-container {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.preference {
+  margin: 20px auto;
+  text-align: left;
+  padding-top: 1rem;
+}
+
+.preference-card {
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.12);
+  margin-bottom: 30px;
+  border: none;
+  overflow: hidden;
+}
+
+/* Enhanced Header Sections for Different User States */
+.preferences-header {
+  padding: 2rem 2rem 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0, 123, 255, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Initial Setup Header - Welcoming and encouraging */
+.preferences-header.initial-setup {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f8f9ff 100%);
+  border-left: 4px solid #007bff;
+}
+
+/* Edit Mode Header - Efficient and status-focused */
+.preferences-header.edit-mode {
+  background: linear-gradient(135deg, #f0fdf4 0%, #f8f9ff 100%);
+  border-left: 4px solid #28a745;
+}
+
+.header-icon-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.header-icon {
+  font-size: 2rem;
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.setup-icon {
+  color: #007bff;
+}
+
+.edit-icon {
+  color: #28a745;
+}
+
+.header-text {
+  flex: 1;
+}
+
+/* Title styling for different states */
+.setup-title, .edit-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.setup-title {
+  color: #1565c0;
+}
+
+.edit-title {
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.setup-subtitle, .edit-subtitle {
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.setup-subtitle {
+  color: #1976d2;
+}
+
+.edit-subtitle {
+  color: #388e3c;
+}
+
+/* Welcome note for new users */
+.setup-welcome-note {
+  background: rgba(0, 123, 255, 0.08);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 123, 255, 0.15);
+  margin-top: 1rem;
+}
+
+.welcome-text {
+  margin: 0;
+  color: #1565c0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Form section styling */
+.preference-card .card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #e9ecef;
+  padding: 1rem 1.5rem;
+}
+
+.preference-card .form-check {
+  padding-left: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.preference-card .form-check-input {
+  margin-top: 0.3rem;
+  border-width: 2px;
+  transition: all 0.2s ease;
+}
+
+.preference-card .form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.preference-card .form-check-label {
+  font-weight: 500;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* Enhanced form controls */
+.preference-card .form-select,
+.preference-card .form-control {
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.preference-card .form-select:focus,
+.preference-card .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.preference-card textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Enhanced Button Styling for Different States */
+.setup-save-btn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  border: none !important;
+  font-weight: 600 !important;
+  padding: 1rem 2rem !important;
+  font-size: 1.1rem !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.setup-save-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4) !important;
+  background: linear-gradient(135deg, #0056b3 0%, #004494 100%) !important;
+}
+
+.edit-save-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  border: none !important;
+  font-weight: 600 !important;
+  padding: 1rem 2rem !important;
+  font-size: 1.1rem !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.edit-save-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4) !important;
+  background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%) !important;
+}
+
+/* Alert styling */
+.preference-card .alert {
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.preference-card .alert-success {
+  background: linear-gradient(135deg, #d4edda 0%, #f8f9fa 100%);
+  border-color: #c3e6cb;
+  color: #155724;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.preference-card .alert-danger {
+  background: linear-gradient(135deg, #f8d7da 0%, #f8f9fa 100%);
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+/* Badge styling for configured status */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px);
   }
-  
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
   .preference {
-    margin: 20px auto;
-    text-align: left;
-    padding-top: 1rem;
+    margin: 10px;
+    padding-top: 0.5rem;
   }
   
-  .preference-card {
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
+  .preferences-header {
+    padding: 1.5rem;
   }
   
-  .preference-card .card-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #333;
+  .header-icon-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .header-icon {
+    font-size: 1.75rem;
+  }
+  
+  .setup-title, .edit-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .edit-title {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .setup-subtitle, .edit-subtitle {
+    text-align: center;
+  }
+  
+  .setup-welcome-note {
+    padding: 0.75rem;
+  }
+  
+  .welcome-text {
+    font-size: 0.9rem;
   }
   
   .preference-card .card-header {
-    background-color: #f8f9fa;
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: #495057;
-    border-bottom: 1px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
   }
   
-  .preference-card .form-check {
-    padding-left: 2rem;
+  .setup-save-btn, .edit-save-btn {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .preferences-header {
+    padding: 1rem;
   }
   
-  .preference-card .form-check-input {
-    margin-top: 0.3rem;
+  .setup-title, .edit-title {
+    font-size: 1.3rem;
   }
   
-  .preference-card textarea {
-    resize: vertical;
+  .header-icon {
+    font-size: 1.5rem;
   }
-  
-  .preference-card .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    font-weight: 500;
-    padding: 10px 20px;
-    transition: all 0.2s ease;
+}
+
+/* Focus states for accessibility */
+.preference-card .form-check-input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.setup-save-btn:focus, .edit-save-btn:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2) !important;
+}
+
+/* Subtle animations for better UX */
+.preference-card {
+  animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .preference-card .btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .preference-card .alert {
-    margin-bottom: 20px;
-  }
-  
-  /* Animation for success message */
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  .preference-card .alert-success {
-    animation: fadeIn 0.3s ease-in;
-  }
+}
