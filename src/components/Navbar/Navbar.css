@@ -112,3 +112,48 @@
     display: block;
     margin: 0 auto;
 }
+
+
+@media (max-width: 576px) {
+  .custom-navbar {
+    padding: 6px;
+  }
+
+  .navbar-brand {
+    font-size: 1.4rem !important;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    padding-right: 12px;
+    margin-left: 12px;
+  }
+
+  .icon-button,
+  .icon-button-sidebar,
+  .icon-button-logout {
+    font-size: 1.5rem;
+    margin: 0 4px;
+  }
+
+  .icon-sidebar {
+    font-size: 1.6rem;
+  }
+
+  .icon-plus {
+    font-size: 1.5rem;
+  }
+
+  .signin-button {
+    font-size: 1rem !important;
+  }
+
+  .signin-icon {
+    font-size: 1.3rem;
+    margin-right: 0.2em;
+  }
+
+  .username {
+    display: none;
+  }
+}

@@ -35,7 +35,7 @@ function Home() {
 
         <div className="hero-buttons">
           <Button 
-            className="btn-primary-custom" 
+            className="btn-primary-custom-1" 
             onClick={handleAnalyzePolicy}
           >
             <span>Analyze a Privacy Policy</span>
@@ -43,7 +43,7 @@ function Home() {
           </Button>
           <Button 
             variant="outline-secondary" 
-            className="btn-secondary-custom"
+            className="btn-secondary-custom-1"
             onClick={handleLearnMore}
           >
             See How It Works

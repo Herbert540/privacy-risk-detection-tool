@@ -1,20 +1,109 @@
-.analysis-detail h1 {
+.analysis-page {
+  background: linear-gradient(
+    135deg,
+    #f8f9ff 0%,
+    #ffffff 50%,
+    #faf5ff 100%
+  );
+  min-height: calc(100vh - 70px);
+  padding: 2rem 0;
+}
+
+.analysis-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.analysis-card {
+  border: none;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  padding: 1.5rem;
+}
+
+.analysis-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.analysis-timestamp {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.25rem;
+}
+
+.preference-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.clause-list {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.result-block {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.educational-notes {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: #e8f5ff;
+  border-left: 4px solid #2196f3;
+  border-radius: 0.25rem;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.action-recommendations {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: #fff7e6;
+  border-left: 4px solid #fb8c00;
+  border-radius: 0.25rem;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .analysis-title {
     font-size: 1.75rem;
-    margin-bottom: 0.5rem;
-}
+  }
 
-.analysis-detail .timestamp {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-}
-
-.analysis-detail h2 {
+  .section-heading {
     font-size: 1.3rem;
-    margin-top: 1rem;
-}
+  }
 
-.analysis-detail h3 {
+  .preference-heading {
     font-size: 1.1rem;
-    margin-top: 0.75rem;
+  }
+
+  .clause-list {
+    margin-left: 0rem;
+    margin-bottom: 0.75rem;
+  }
 }

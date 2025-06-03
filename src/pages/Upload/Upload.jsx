@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Button, Alert, Spinner, Container, Card, ListGroup, Row, Col } from 'react-bootstrap';
+import { Form, Button, Alert, Spinner, Container, Card } from 'react-bootstrap';
 import { useAuthState, useDbData, useDbAdd } from '../../utilities/firebase';
 import { extractPolicy } from '../../utilities/extractPolicy';
 import { analyzePolicy } from '../../utilities/analyzePolicy';
@@ -83,86 +83,180 @@ function Upload() {
 
 
     return (
-        <Container className="upload">
-            <h1>Upload & Analyze</h1>
+        <div className="upload-page">
+            <Container className="upload-container">
+                <Card className="upload-card shadow-lg">
+                    <Card.Body>
+                        <h1 className="upload-title">Upload & Analyze Privacy Policy</h1>
+                        <p className="upload-subtitle">
+                            Upload a TXT/PDF or paste a URL, and we’ll highlight sections
+                            that match or conflict with your preferences.
+                        </p>
 
-            <Form onSubmit={handleSubmit} className="upload-form">
-                <Form.Group controlId="policyFile">
-                    <Form.Label>Upload File (TXT or PDF)</Form.Label>
-                    <Form.Control
-                        type="file"
-                        accept=".txt,.pdf"
-                        onChange={handleFileChange}
-                    />
-                </Form.Group>
+                        <Form onSubmit={handleSubmit} className="upload-form">
+                            {/* Upload Field */}
+                            <Form.Group controlId="policyFile" className="mb-4">
+                                <Form.Label className="form-label">
+                                    Upload File (TXT, PDF or DOCX)
+                                </Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    accept=".txt,.pdf,.docx"
+                                    onChange={handleFileChange}
+                                    className="form-control-custom"
+                                />
+                            </Form.Group>
 
-                <div className="or-divider">— or —</div>
+                            <div className="or-divider">— or —</div>
 
-                <Form.Group controlId="policyUrl">
-                    <Form.Label>Paste Policy URL</Form.Label>
-                    <Form.Control
-                        type="url"
-                        placeholder="https://example.com/privacy"
-                        value={url}
-                        onChange={handleUrlChange}
-                    />
-                </Form.Group>
+                            {/* URL Field */}
+                            <Form.Group controlId="policyUrl" className="mt-4">
+                                <Form.Label className="form-label">
+                                    Paste Policy URL
+                                </Form.Label>
+                                <Form.Control
+                                    type="url"
+                                    placeholder="https://example.com/privacy"
+                                    value={url}
+                                    onChange={handleUrlChange}
+                                    className="form-control-custom"
+                                />
+                            </Form.Group>
 
-                {error && (
-                    <Alert variant="danger" className="mt-3">
-                        {error}
-                    </Alert>
+                            {error && (
+                                <Alert variant="danger" className="mt-3">
+                                    {error}
+                                </Alert>
+                            )}
+
+                            <div className="d-grid mt-4">
+                                <Button
+                                    variant="primary"
+                                    type="submit"
+                                    size="lg"
+                                    disabled={loading || !!output}
+                                    className="btn-primary-custom"
+                                >
+                                    {loading ? (
+                                        <>
+                                            <Spinner animation="border" size="sm" /> Analyzing…
+                                        </>
+                                    ) : (
+                                        'Analyze Policy'
+                                    )}
+                                </Button>
+                            </div>
+                        </Form>
+                    </Card.Body>
+                </Card>
+
+                {output && (
+                    <Card className="result-card shadow-sm mt-5">
+                        <Card.Body>
+                            {/* Preferences Matches */}
+                            {output.matchingClauses?.length > 0 && (
+                                <section className="section-matching">
+                                    <h2 className="section-heading">Preferences Matches</h2>
+                                    {output.matchingClauses.map(
+                                        ({
+                                            preference,
+                                            clauses,
+                                            severity,
+                                            educationalNotes,
+                                            actionRecommendations
+                                        }) => (
+                                            <div
+                                                key={preference}
+                                                className="preference-block result-block"
+                                            >
+                                                <div className="pref-header">
+                                                    <h3 className="preference-heading">{preference}</h3>
+                                                    {severity && (
+                                                        <div
+                                                            className="severity-label"
+                                                            data-severity={severity}
+                                                        >
+                                                            {severity}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <ul className="clause-list">
+                                                    {clauses.map((clause, i) => (
+                                                        <li key={i}>{clause}</li>
+                                                    ))}
+                                                </ul>
+                                                {educationalNotes && (
+                                                    <div className="educational-notes">
+                                                        <strong>Educational Notes:</strong>{' '}
+                                                        {educationalNotes}
+                                                    </div>
+                                                )}
+                                                {actionRecommendations && (
+                                                    <div className="action-recommendations">
+                                                        <strong>Action Recommendations:</strong>{' '}
+                                                        {actionRecommendations}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )
+                                    )}
+                                </section>
+                            )}
+
+                            {/* Preference Conflicts */}
+                            {output.conflictingClauses?.length > 0 && (
+                                <section className="section-conflicts mt-5">
+                                    <h2 className="section-heading">Preference Conflicts</h2>
+                                    {output.conflictingClauses.map(
+                                        ({
+                                            preference,
+                                            clauses,
+                                            severity,
+                                            educationalNotes,
+                                            actionRecommendations
+                                        }) => (
+                                            <div
+                                                key={preference}
+                                                className="preference-block result-block"
+                                            >
+                                                <div className="pref-header">
+                                                    <h3 className="preference-heading">{preference}</h3>
+                                                    {severity && (
+                                                        <div
+                                                            className="severity-label"
+                                                            data-severity={severity}
+                                                        >
+                                                            {severity}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <ul className="clause-list">
+                                                    {clauses.map((clause, i) => (
+                                                        <li key={i}>{clause}</li>
+                                                    ))}
+                                                </ul>
+                                                {educationalNotes && (
+                                                    <div className="educational-notes">
+                                                        <strong>Educational Notes:</strong>{' '}
+                                                        {educationalNotes}
+                                                    </div>
+                                                )}
+                                                {actionRecommendations && (
+                                                    <div className="action-recommendations">
+                                                        <strong>Action Recommendations:</strong>{' '}
+                                                        {actionRecommendations}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )
+                                    )}
+                                </section>
+                            )}
+                        </Card.Body>
+                    </Card>
                 )}
-
-                <Button
-                    variant="primary"
-                    type="submit"
-                    className="mt-3"
-                    disabled={loading || !!output}
-                >
-                    {loading
-                        ? <> <Spinner animation="border" size="sm" /> Analyzing… </>
-                        : 'Analyze Policy'}
-                </Button>
-            </Form>
-
-            {output && (
-                <div className="analysis-display mt-4 text-start">
-                    {output.matchingClauses?.length > 0 && (
-                        <section className="section-matching">
-                            <h2>Preferences Matches</h2>
-                            {output.matchingClauses.map(({ preference, clauses }) => (
-                                <div key={preference} className="preference-block">
-                                    <h3 className="preference-heading">{preference}</h3>
-                                    <ul className="clause-list">
-                                        {clauses.map((clause, i) => (
-                                            <li key={i}>{clause}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                        </section>
-                    )}
-
-                    {output.conflictingClauses?.length > 0 && (
-                        <section className="section-conflicts mt-4">
-                            <h2>Preference Conflicts</h2>
-                            {output.conflictingClauses.map(({ preference, clauses }) => (
-                                <div key={preference} className="preference-block">
-                                    <h3 className="preference-heading">{preference}</h3>
-                                    <ul className="clause-list">
-                                        {clauses.map((clause, i) => (
-                                            <li key={i}>{clause}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                        </section>
-                    )}
-                </div>
-            )}
-
-        </Container>
+            </Container>
+        </div>
     );
 }
 
