@@ -16,7 +16,7 @@ export default function SignInModal({ show, onHide }) {
     const handleGoogleSignIn = async () => {
         setError('');
         setLoading(true);
-        
+
         try {
             const result = await signInWithGoogle();
             const userID = result.uid;
@@ -26,7 +26,7 @@ export default function SignInModal({ show, onHide }) {
             if (snapshot.exists()) {
                 const userData = snapshot.val();
                 if (userData.newUser) {
-                    navigate('/profile');
+                    navigate('/preferences');
                 }
             } else {
                 const userData = {
@@ -41,6 +41,7 @@ export default function SignInModal({ show, onHide }) {
                     }
                 };
                 await update(userData);
+                navigate('/preferences');
             }
 
             onHide();
@@ -73,8 +74,8 @@ export default function SignInModal({ show, onHide }) {
                     </Alert>
                 )}
 
-                <Button 
-                    onClick={handleGoogleSignIn} 
+                <Button
+                    onClick={handleGoogleSignIn}
                     disabled={loading}
                     className="simple-google-btn"
                 >
