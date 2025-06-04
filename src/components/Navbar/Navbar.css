@@ -21,7 +21,6 @@
 
 .navbar-brand {
     font-size: 1.8rem !important;
-    ;
     font-weight: 700;
     text-align: center;
     color: #333;
@@ -117,10 +116,12 @@
 @media (max-width: 576px) {
   .custom-navbar {
     padding: 6px;
+    height: 80px;
   }
 
   .navbar-brand {
-    font-size: 1.4rem !important;
+    font-size: 1.8rem !important;
+    margin-bottom: 5px;
   }
 
   .navbar-left,
@@ -132,16 +133,16 @@
   .icon-button,
   .icon-button-sidebar,
   .icon-button-logout {
-    font-size: 1.5rem;
+    font-size: 2.0rem;
     margin: 0 4px;
   }
 
   .icon-sidebar {
-    font-size: 1.6rem;
+    font-size: 2.0rem;
   }
 
   .icon-plus {
-    font-size: 1.5rem;
+    font-size: 1.9rem;
   }
 
   .signin-button {
